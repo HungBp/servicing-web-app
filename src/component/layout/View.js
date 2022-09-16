@@ -2,7 +2,12 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import SearchIcon from '@mui/icons-material/Search';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import Dashboard from '../Dashboard';
 import Plan from '../Plan';
 import Report from '../Report';
@@ -22,8 +27,22 @@ function View() {
     }
   };
 
+  const customSearchBarStyle = {
+    backgroundColor: '#f5f5f5',
+    borderRadius: '4px',
+    marginRight: '5px',
+    display: 'flex'
+  };
+
+  const customInputBaseStyle = {
+    'aria-label': 'search',
+    'style': {
+      padding: '4px'
+    }
+  };
+
   return (
-    <div className='view'>
+    <Box sx={{ minHeight: '100vh' }}>
       <AppBar
         position="static"
         color='inherit'
@@ -31,12 +50,37 @@ function View() {
       >
         <Toolbar sx={customToolBarStyle}>
           <Typography
-            variant='h6'
+            variant='h5'
             sx={{ flexGrow: 1 }}
+            fontWeight='bold'
           >
             {pathNames[pathURL.indexOf(useLocation().pathname)]}
           </Typography>
-          <Button color="inherit">Login</Button>
+
+          <Box sx={customSearchBarStyle} component="form">
+            <IconButton type="button" aria-label="search">
+              <SearchIcon/>
+            </IconButton>
+            
+            <InputBase
+              placeholder="Search..."
+              inputProps={customInputBaseStyle}
+            />
+          </Box>
+
+          <IconButton
+            size="small"
+            aria-label="notifications"
+            color="inherit"
+          >
+            <Badge
+              badgeContent={5}
+              color="error"
+              overlap="circular"
+            >
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
         </Toolbar>
       </AppBar>
 
@@ -58,7 +102,7 @@ function View() {
           element={<User/>}
         />
       </Routes>
-    </div>
+    </Box>
   );
 }
 
