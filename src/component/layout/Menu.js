@@ -23,7 +23,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { pathNames, pathURL } from "../../urlpath/urlPath";
 
 function Menu() {
-  const [value, setValue] = useState("/");
+  const [value, setValue] = useState(useLocation().pathname);
   const [mobileOpen, setMobileOpen] = useState(false);
   const icons = [
     <DashboardIcon />,
