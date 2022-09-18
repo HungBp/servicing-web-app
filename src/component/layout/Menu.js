@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -14,13 +14,34 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import InputBase from '@mui/material/InputBase';
 import Typography from '@mui/material/Typography';
-import { pathNames } from '../../urlpath/urlPath'
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Badge from '@mui/material/Badge';
+import SearchIcon from '@mui/icons-material/Search';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { pathNames, pathURL } from '../../urlpath/urlPath'
 
 function Menu() {
   const [value, setValue] = useState('/');
   const [mobileOpen, setMobileOpen] = useState(false);
   const icons = [<DashboardIcon/>, <CalendarMonthIcon/>, <SummarizeIcon/>, <AccountBoxIcon/>];
+  const matchMediaWidth = !useMediaQuery('(min-width:600px)');
+
+  const customSearchBarStyle = {
+    backgroundColor: '#f5f5f5',
+    borderRadius: '4px',
+    marginRight: '5px',
+    marginLeft: '15px',
+    display: 'flex'
+  };
+
+  const customInputBaseStyle = {
+    'aria-label': 'search',
+    'style': {
+      padding: '4px'
+    }
+  };
 
   // menu
   const customMenuStyle = {
@@ -95,7 +116,7 @@ function Menu() {
   };
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    matchMediaWidth && setMobileOpen(!mobileOpen);
   };
 
   const menu = (
@@ -128,6 +149,7 @@ function Menu() {
               value={(pathName === 'Dashboard') ? '/' : `/${pathName.toLowerCase()}`}
               to={(pathName === 'Dashboard') ? '/' : `/${pathName.toLowerCase()}`}
               sx={customTabsStyle}
+              onClick={handleDrawerToggle}
             />
             ))
           }
@@ -162,6 +184,38 @@ function Menu() {
                 <MenuIcon />
               </IconButton>
 
+              <Typography
+                variant='h5'
+                sx={{ flexGrow: 1 }}
+                fontWeight='bold'
+              >
+                {pathNames[pathURL.indexOf(useLocation().pathname)]}
+              </Typography>
+
+              <Box sx={customSearchBarStyle} component="form">
+                <IconButton type="button" aria-label="search">
+                  <SearchIcon/>
+                </IconButton>
+                
+                <InputBase
+                  placeholder="Search"
+                  inputProps={customInputBaseStyle}
+                />
+              </Box>
+
+              <IconButton
+                size="small"
+                aria-label="notifications"
+                color="inherit"
+              >
+                <Badge
+                  badgeContent={5}
+                  color="error"
+                  overlap="circular"
+                >
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
             </Toolbar>
           </AppBar>
           

@@ -58,13 +58,14 @@ function User() {
     borderRadius: "8px",
     backgroundColor: "white",
     height: "calc(100% - 2 * 20px)"
-  }
+  };
 
   const customCheckTableStyle = {
     width: '90%',
     marginBottom: '12px',
+    marginTop: '12px',
     alignSelf: 'center'
-  }
+  };
 
   const customTodoTableStyle = {
     width: '90%',
@@ -72,7 +73,7 @@ function User() {
     alignSelf: 'center',
     overflowY: 'scroll',
     maxHeight: '250px'
-  }
+  };
 
   return (
     <div className='user'>
@@ -88,7 +89,7 @@ function User() {
             </Typography>
 
             <Stack
-              spacing={2}
+              spacing={1}
               flexGrow={1}
               direction="column"
               justifyContent="center"
@@ -102,9 +103,9 @@ function User() {
               <Table size="small" aria-label="table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">Date</TableCell>
-                    <TableCell align="center">Check In</TableCell>
-                    <TableCell align="center">Check Out</TableCell>
+                    <TableCell sx={{fontWeight: 600}} align="center">Date</TableCell>
+                    <TableCell sx={{fontWeight: 600}} align="center">Check In</TableCell>
+                    <TableCell sx={{fontWeight: 600}} align="center">Check Out</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -113,7 +114,7 @@ function User() {
                       key={row.dateCheck}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell  align="center" component="th" scope="row">{row.dateCheck}</TableCell>
+                      <TableCell align="center" component="th" scope="row">{row.dateCheck}</TableCell>
                       <TableCell align="center">{row.checkin}</TableCell>
                       <TableCell align="center">{row.checkout}</TableCell>
                     </TableRow>
@@ -209,15 +210,15 @@ function User() {
               Task List
             </Typography>
 
-            <TableContainer component={Paper} elevation={0} sx={customTodoTableStyle}>
+            <TableContainer component={Paper} elevation={2} sx={customTodoTableStyle}>
               <Table size="small" aria-label="table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">Date</TableCell>
-                    <TableCell align="center">Site</TableCell>
-                    <TableCell align="center">Task</TableCell>
-                    <TableCell align="center">Description</TableCell>
-                    <TableCell align="center">Service by</TableCell>
+                    <TableCell sx={{fontWeight: 600}} align="center">Date</TableCell>
+                    <TableCell sx={{fontWeight: 600}} align="center">Site</TableCell>
+                    <TableCell sx={{fontWeight: 600}} align="center">Task</TableCell>
+                    <TableCell sx={{fontWeight: 600}} align="center">Description</TableCell>
+                    <TableCell sx={{fontWeight: 600}} align="center">Service by</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -226,7 +227,7 @@ function User() {
                       key={row.dateCheck}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell  align="center" component="th" scope="row">{row.dateCheck}</TableCell>
+                      <TableCell align="center" component="th" scope="row">{row.dateCheck}</TableCell>
                       <TableCell align="center">{row.site}</TableCell>
                       <TableCell align="center">{row.task}</TableCell>
                       <TableCell align="center">{row.description}</TableCell>

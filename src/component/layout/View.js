@@ -16,6 +16,10 @@ import { pathNames, pathURL } from '../../urlpath/urlPath'
 
 function View() {
   const customAppBarStyle = {
+    display: {
+      xs: 'none',
+      sm: 'block'
+    },
     '&.MuiAppBar-root': {
       boxShadow: 'none'
     }
@@ -31,6 +35,7 @@ function View() {
     backgroundColor: '#f5f5f5',
     borderRadius: '4px',
     marginRight: '5px',
+    marginLeft: '15px',
     display: 'flex'
   };
 
@@ -63,7 +68,7 @@ function View() {
             </IconButton>
             
             <InputBase
-              placeholder="Search..."
+              placeholder="Search"
               inputProps={customInputBaseStyle}
             />
           </Box>
