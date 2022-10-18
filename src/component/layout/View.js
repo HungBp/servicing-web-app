@@ -1,28 +1,33 @@
-import { Routes, Route, useLocation } from "react-router-dom";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import InputBase from "@mui/material/InputBase";
-import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
+import {
+  Routes,
+  Route,
+  useLocation
+} from "react-router-dom";
+
+import {
+  AppBar,
+  Badge,
+  Box,
+  IconButton,
+  InputBase,
+  Toolbar,
+  Typography
+} from "@mui/material";
+
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import Dashboard from "../Dashboard";
-import Plan from "../Plan";
-import Report from "../Report";
-import User from "../User";
-import { pathNames, pathURL } from "../../urlpath/urlPath";
+
+import pathURLs from "../../pathURL/pathURLs";
+import AlertDisplay from "../AlertDisplay";
 
 function View() {
+  const currPath = useLocation().pathname;
+
   const customAppBarStyle = {
     display: {
       xs: "none",
       sm: "block",
-    },
-    "&.MuiAppBar-root": {
-      boxShadow: "none",
-    },
+    }
   };
 
   const customToolBarStyle = {
@@ -47,19 +52,20 @@ function View() {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh" }}>
+    <>
       <AppBar
-        position="static"
+        position="relative"
         color="inherit"
+        elevation={0}
         sx={customAppBarStyle}
       >
         <Toolbar sx={customToolBarStyle}>
           <Typography
             variant="h5"
-            sx={{ flexGrow: 1 }}
+            sx={{ flex: 1 }}
             fontWeight="bold"
           >
-            {pathNames[pathURL.indexOf(useLocation().pathname)]}
+            { pathURLs.filter(pathURL => pathURL.url === currPath)[0].name }
           </Typography>
 
           <Box
@@ -95,25 +101,20 @@ function View() {
         </Toolbar>
       </AppBar>
 
+      <AlertDisplay/>
+
       <Routes>
-        <Route
-          path="/"
-          element={<Dashboard />}
-        />
-        <Route
-          path="/plan"
-          element={<Plan />}
-        />
-        <Route
-          path="/report"
-          element={<Report />}
-        />
-        <Route
-          path="/user"
-          element={<User />}
-        />
+        {
+          pathURLs.map(pathURL => (
+            <Route
+              key={pathURL.name}
+              path={pathURL.url}
+              element={pathURL.component}
+            />
+          ))
+        }
       </Routes>
-    </Box>
+    </>
   );
 }
 

@@ -1,32 +1,33 @@
-import Grid from "@mui/material/Grid";
+import { Box } from "@mui/material";
+
 import Menu from "./component/layout/Menu";
 import View from "./component/layout/View";
+import AlertContextProvider from "./context/AlertContextProvider";
+
+const sideBarSize = "180px";
 
 function App() {
   return (
-    <div className="App">
-      <Grid container>
-        <Grid
-          item
-          xs={12}
-          sm={3}
-          md={2}
-          color="white"
-          bgcolor="black"
-          minHeight={{ xs: "initial", sm: "100%" }}
-        >
-          <Menu />
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={9}
-          md={10}
-        >
-          <View />
-        </Grid>
-      </Grid>
-    </div>
+    <AlertContextProvider>
+      <Box
+        display="flex"
+        position="fixed"
+        width={{ xs: "100%", sm: sideBarSize }}
+        minHeight={{ xs: "0", sm: "100%" }}
+        zIndex={10}
+      >
+        <Menu />
+      </Box>
+
+      <Box
+        position="absolute"
+        width={{ xs: "100%", sm: `calc(100% - ${sideBarSize})` }}
+        left={{ xs: "0", sm: sideBarSize }}
+        top={{ xs: "60px", sm: "0" }}
+      >
+        <View />
+      </Box>
+    </AlertContextProvider>
   );
 }
 

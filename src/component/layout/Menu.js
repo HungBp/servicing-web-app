@@ -1,71 +1,42 @@
-import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import SummarizeIcon from "@mui/icons-material/Summarize";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Divider from "@mui/material/Divider";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import InputBase from "@mui/material/InputBase";
-import Typography from "@mui/material/Typography";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import Badge from "@mui/material/Badge";
+
+import {
+  Link,
+  useLocation
+} from "react-router-dom";
+
+import {
+  AppBar,
+  Badge,
+  Box,
+  Divider,
+  Drawer,
+  IconButton,
+  InputBase,
+  Stack,
+  Tab,
+  Tabs,
+  Toolbar,
+  Typography,
+  useMediaQuery
+} from "@mui/material";
+
 import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { pathNames, pathURL } from "../../urlpath/urlPath";
+import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
+
+import pathURLs from "../../pathURL/pathURLs";
+
+const sideBarSize = "180px";
 
 function Menu() {
-  const [value, setValue] = useState(useLocation().pathname);
+  const currPath = useLocation().pathname;
+  const [value, setValue] = useState(currPath);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const icons = [
-    <DashboardIcon />,
-    <CalendarMonthIcon />,
-    <SummarizeIcon />,
-    <AccountBoxIcon />,
-  ];
   const matchMediaWidth = !useMediaQuery("(min-width:600px)");
 
-  const customSearchBarStyle = {
-    backgroundColor: "#f5f5f5",
-    borderRadius: "4px",
-    marginRight: "5px",
-    marginLeft: "15px",
-    display: "flex",
-  };
-
-  const customInputBaseStyle = {
-    "aria-label": "search",
-    style: {
-      padding: "4px",
-    },
-  };
-
   // menu
-  const customMenuStyle = {
-    minHeight: "inherit",
-    display: "flex",
-    flexDirection: "column",
-  };
-
-  // menu -> sidebar
-  const customSideBarMenuStyle = {
-    display: {
-      xs: "none",
-      sm: "flex",
-    },
-    flexDirection: "column",
-    flexGrow: 1,
-  };
-
-  // menu -> sidebar -> styling
   const customBrandStyle = {
     padding: "16px",
     display: "flex",
@@ -99,20 +70,37 @@ function Menu() {
     justifyContent: "center",
   };
 
-  // menu -> drawer
+  // sidebar
+  const customSideBarStyle = {
+    flex: 1,
+    display: {
+      xs: "none",
+      sm: "flex",
+    },
+    flexDirection: "column",
+  };
+
+  // appbar
   const customAppBarStyle = {
+    flex: 1,
     display: {
       xs: "block",
       sm: "none",
     },
   };
 
-  // menu -> drawer -> styling
-  const customDrawerMenuStyle = {
-    "& .MuiDrawer-paper": {
-      width: 180,
-      backgroundColor: "black",
-      color: "white",
+  const customSearchBarStyle = {
+    backgroundColor: "#f5f5f5",
+    borderRadius: "4px",
+    marginRight: "5px",
+    marginLeft: "15px",
+    display: "flex",
+  };
+
+  const customInputBaseStyle = {
+    "aria-label": "search",
+    style: {
+      padding: "4px",
     },
   };
 
@@ -125,7 +113,12 @@ function Menu() {
   };
 
   const menu = (
-    <>
+    <Stack
+      color="white"
+      bgcolor="black"
+      flex={1}
+      width={sideBarSize}
+    >
       <Box sx={customBrandStyle}>
         <MiscellaneousServicesIcon sx={{ marginRight: "8px" }} />
         <Typography variant="subtitle1">SERVICING</Typography>
@@ -141,17 +134,17 @@ function Menu() {
         TabIndicatorProps={customTabsIndicatorStyle}
         orientation="vertical"
         aria-label="tabs"
-        sx={{ flexGrow: 1 }}
+        sx={{ flex: 1 }}
       >
-        {pathNames.map((pathName, index) => (
+        {pathURLs.map(pathURL => (
           <Tab
-            key={pathName}
+            key={pathURL.name}
             component={Link}
-            icon={icons[index]}
+            icon={pathURL.icon}
             iconPosition="start"
-            label={`${pathName}`}
-            value={pathName === "Dashboard" ? "/" : `/${pathName.toLowerCase()}`}
-            to={pathName === "Dashboard" ? "/" : `/${pathName.toLowerCase()}`}
+            label={`${pathURL.name}`}
+            value={pathURL.url}
+            to={pathURL.url}
             sx={customTabsStyle}
             onClick={handleDrawerToggle}
           />
@@ -163,17 +156,17 @@ function Menu() {
       <Box sx={customMenuFooterStyle}>
         <Typography variant="subtitle2">Copyright@2022</Typography>
       </Box>
-    </>
+    </Stack>
   );
 
   return (
-    <Box sx={customMenuStyle}>
-      <Box sx={customSideBarMenuStyle}>{menu}</Box>
+    <>
+      <Box sx={customSideBarStyle}>{menu}</Box>
 
       <Box sx={customAppBarStyle}>
         <AppBar
           sx={{ "&.MuiAppBar-root": { backgroundColor: "black" } }}
-          position="static"
+          variant="outline"
         >
           <Toolbar sx={{ "&.MuiToolbar-root": { minHeight: "60px" } }}>
             <IconButton
@@ -187,10 +180,10 @@ function Menu() {
 
             <Typography
               variant="h5"
-              sx={{ flexGrow: 1 }}
+              sx={{ flex: 1 }}
               fontWeight="bold"
             >
-              {pathNames[pathURL.indexOf(useLocation().pathname)]}
+              { pathURLs.filter(pathURL => pathURL.url === currPath)[0].name }
             </Typography>
 
             <Box
@@ -230,12 +223,11 @@ function Menu() {
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          sx={customDrawerMenuStyle}
         >
           {menu}
         </Drawer>
       </Box>
-    </Box>
+    </>
   );
 }
 
